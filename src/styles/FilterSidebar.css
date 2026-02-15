@@ -1,0 +1,132 @@
+/* Filter Sidebar Styles */
+.filter-sidebar {
+  background: var(--bg-surface);
+  border-right: 1px solid var(--border);
+  padding: 24px;
+  height: calc(100vh - var(--nav-height));
+  position: sticky;
+  top: var(--nav-height);
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+}
+
+[data-theme="dark"] .filter-sidebar {
+  background: rgba(26, 16, 51, 0.6);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Header */
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border);
+}
+
+.filter-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-main);
+  font-family: var(--font-display);
+}
+
+.clear-filters-btn {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: 20px;
+  transition: all 0.3s ease;
+  font-family: var(--font-main);
+}
+
+.clear-filters-btn:hover {
+  background: rgba(124, 58, 237, 0.1);
+  transform: scale(1.05);
+}
+
+/* Filter Sections */
+.filter-section {
+  margin-bottom: 28px;
+}
+
+.filter-section-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-family: var(--font-main);
+}
+
+.filter-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Filter Option (Checkbox) */
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.filter-option:hover {
+  background: rgba(124, 58, 237, 0.05);
+}
+
+[data-theme="dark"] .filter-option:hover {
+  background: rgba(167, 139, 250, 0.1);
+}
+
+.filter-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--primary);
+  border-radius: 4px;
+}
+
+.filter-label {
+  font-size: 0.9rem;
+  color: var(--text-main);
+  font-weight: 500;
+  flex: 1;
+}
+
+/* Scrollbar Styling */
+.filter-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.filter-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.filter-sidebar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 10px;
+}
+
+.filter-sidebar::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 1199px) {
+  .filter-sidebar {
+    display: none; /* Will implement collapsible drawer for mobile/tablet */
+  }
+}

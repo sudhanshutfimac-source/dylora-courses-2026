@@ -1,0 +1,216 @@
+/* Modern Internship Card - Card on Card Design */
+.internship-card-modern {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.08);
+}
+
+[data-theme="dark"] .internship-card-modern {
+    background: rgba(26, 16, 51, 0.7);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.internship-card-modern:hover {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 12px 32px rgba(124, 58, 237, 0.2);
+    border-color: var(--primary);
+}
+
+[data-theme="dark"] .internship-card-modern:hover {
+    box-shadow: 0 12px 32px rgba(167, 139, 250, 0.3);
+}
+
+/* Gradient Border on Hover */
+.internship-card-modern::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 2px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+}
+
+.internship-card-modern:hover::before {
+    opacity: 1;
+}
+
+/* Card Header */
+.card-header-modern {
+    margin-bottom: 16px;
+}
+
+.card-title-modern {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-family: var(--font-display);
+}
+
+.card-company {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Meta Info - Clean Text Only */
+.card-meta-modern {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px dashed var(--border);
+}
+
+.meta-text {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.meta-divider {
+    color: var(--border);
+    font-weight: 700;
+}
+
+/* Responsibilities */
+.card-responsibilities {
+    margin-bottom: 18px;
+}
+
+.responsibility-item-modern {
+    font-size: 0.9rem;
+    color: var(--text-main);
+    line-height: 1.7;
+    margin-bottom: 6px;
+}
+
+/* Skills */
+.card-skills {
+    margin-bottom: 20px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+}
+
+.skills-text-modern {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+/* Actions - Modern Single Save Button */
+.card-actions-modern {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-save-modern,
+.btn-apply-modern {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: none;
+    font-family: var(--font-main);
+}
+
+/* Save Button */
+.btn-save-modern {
+    background: rgba(124, 58, 237, 0.08);
+    color: var(--primary);
+    border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+.btn-save-modern:hover {
+    background: rgba(124, 58, 237, 0.15);
+    border-color: var(--primary);
+    transform: translateY(-2px);
+}
+
+.btn-save-modern.saved {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.btn-save-modern.saved:hover {
+    background: var(--secondary);
+    border-color: var(--secondary);
+}
+
+[data-theme="dark"] .btn-save-modern {
+    background: rgba(167, 139, 250, 0.15);
+    color: var(--primary);
+    border-color: rgba(167, 139, 250, 0.3);
+}
+
+[data-theme="dark"] .btn-save-modern:hover {
+    background: rgba(167, 139, 250, 0.25);
+}
+
+/* Apply Button */
+.btn-apply-modern {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.3);
+}
+
+.btn-apply-modern:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(219, 39, 119, 0.4);
+}
+
+.btn-apply-modern.applied {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.btn-apply-modern.applied:hover {
+    transform: none;
+    box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.btn-apply-modern:disabled {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .internship-card-modern {
+        padding: 20px;
+    }
+
+    .card-title-modern {
+        font-size: 1.1rem;
+    }
+
+    .card-actions-modern {
+        flex-direction: column;
+    }
+}

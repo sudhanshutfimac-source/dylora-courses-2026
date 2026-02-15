@@ -5,9 +5,19 @@
     padding-top: 120px;
 }
 
+/* Three-Column Layout */
+.form-layout-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 280px 1fr 320px;
+    gap: 32px;
+    padding: 0 20px;
+}
+
 .form-page-container {
     max-width: 600px;
-    margin: 0 auto;
+    min-width: 0;
 }
 
 /* Form Header */
@@ -59,6 +69,285 @@
 
 .toggle-theme-btn {
     padding: 10px 15px;
+}
+
+/* Left Sidebar - Progress Tracker */
+.form-left-sidebar {
+    position: sticky;
+    top: calc(var(--nav-height) + 20px);
+    height: fit-content;
+}
+
+.progress-tracker {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.06);
+}
+
+[data-theme="dark"] .progress-tracker {
+    background: rgba(26, 16, 51, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.tracker-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.tracker-title i {
+    color: var(--primary);
+}
+
+.progress-step {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.progress-step:not(:last-of-type)::before {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 38px;
+    width: 2px;
+    height: calc(100% + 8px);
+    background: var(--border);
+}
+
+.step-indicator {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-surface);
+    border: 2px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    color: var(--text-muted);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.progress-step.completed .step-indicator {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+.step-content {
+    flex: 1;
+    padding-top: 2px;
+}
+
+.step-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 8px;
+}
+
+.step-progress-bar {
+    width: 100%;
+    height: 6px;
+    background: var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.step-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    transition: width 0.4s ease;
+    border-radius: 10px;
+}
+
+.step-percentage {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 600;
+}
+
+.tracker-tip {
+    margin-top: 20px;
+    padding: 12px;
+    background: rgba(124, 58, 237, 0.08);
+    border-radius: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.tracker-tip i {
+    color: var(--primary);
+    margin-top: 2px;
+}
+
+.tracker-tip p {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Right Sidebar - Info Cards */
+.form-right-sidebar {
+    position: sticky;
+    top: calc(var(--nav-height) + 20px);
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.info-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.06);
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .info-card {
+    background: rgba(26, 16, 51, 0.6);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+.info-card:hover {
+    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.12);
+    border-color: var(--primary);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.card-header i {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.card-header h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0;
+}
+
+/* Tips Card */
+.tips-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tips-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    line-height: 1.5;
+}
+
+.tips-list li i {
+    color: #22c55e;
+    margin-top: 3px;
+    flex-shrink: 0;
+}
+
+/* Timeline Card */
+.timeline {
+    position: relative;
+}
+
+.timeline-item {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.timeline-item:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 20px;
+    width: 2px;
+    height: calc(100% + 4px);
+    background: var(--border);
+}
+
+.timeline-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--primary);
+    border: 3px solid var(--bg-surface);
+    flex-shrink: 0;
+    margin-top: 2px;
+    position: relative;
+    z-index: 1;
+}
+
+.timeline-content strong {
+    font-size: 0.85rem;
+    color: var(--text-main);
+    display: block;
+    margin-bottom: 2px;
+}
+
+.timeline-content p {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Support Card */
+.support-text {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+.support-btn {
+    width: 100%;
+    padding: 12px 20px;
+    background: rgba(124, 58, 237, 0.1);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    color: var(--primary);
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.support-btn:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
 }
 
 /* Form Badge */
@@ -170,10 +459,22 @@
     box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.1);
 }
 
+[data-theme="dark"] .form-group input:focus,
+[data-theme="dark"] .form-group select:focus,
+[data-theme="dark"] .form-group textarea:focus {
+    box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+}
+
 .form-group input::placeholder,
 .form-group textarea::placeholder {
     color: var(--text-muted);
     opacity: 0.6;
+}
+
+[data-theme="dark"] .form-group input::placeholder,
+[data-theme="dark"] .form-group textarea::placeholder {
+    color: rgba(165, 180, 252, 0.7);
+    opacity: 1;
 }
 
 /* Phone Input */
@@ -323,6 +624,32 @@
 
     .form-title {
         font-size: 1.75rem;
+    }
+}
+
+/* Responsive Breakpoints for Sidebar Layout */
+@media (max-width: 1299px) {
+    .form-layout-container {
+        grid-template-columns: 1fr 320px;
+    }
+
+    .form-left-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 1023px) {
+    .form-layout-container {
+        grid-template-columns: 1fr;
+    }
+
+    .form-right-sidebar {
+        display: none;
+    }
+
+    .form-page-container {
+        max-width: 100%;
+        margin: 0 auto;
     }
 }
 

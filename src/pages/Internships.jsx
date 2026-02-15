@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import FilterSidebar from '../components/FilterSidebar';
+import InternshipCard from '../components/InternshipCard';
+import RecommendedWidget from '../components/RecommendedWidget';
+import RecentlyViewedWidget from '../components/RecentlyViewedWidget';
 import '../styles/Internships.css';
 
 const Internships = () => {
     const navigate = useNavigate();
     const location = useLocation();
-    const [selectedFilter, setSelectedFilter] = useState('All Brands');
     const [bookmarkedJobs, setBookmarkedJobs] = useState(new Set());
     const [appliedJobs, setAppliedJobs] = useState(new Set());
+    const [recentlyViewed, setRecentlyViewed] = useState([]);
+
+    // Multi-filter state
+    const [filters, setFilters] = useState({
+        category: [],
+        role: [],
+        worktime: [],
+        compensation: []
+    });
 
     // Check if we came back from application form with applied status
     useEffect(() => {
@@ -16,7 +28,13 @@ const Internships = () => {
         }
     }, [location.state]);
 
-    const filters = ['All Brands', 'Work from home', 'Part time', 'Engineering', 'Design', 'Data Science'];
+    // Load recently viewed from localStorage
+    useEffect(() => {
+        const saved = localStorage.getItem('recentlyViewedInternships');
+        if (saved) {
+            setRecentlyViewed(JSON.parse(saved));
+        }
+    }, []);
 
     const internships = [
         {
@@ -33,7 +51,10 @@ const Internships = () => {
                 'Manage content calendar'
             ],
             skills: 'English Proficiency • MS Word • Creative Writing',
-            category: 'Engineering'
+            category: 'Non-Tech',
+            role: 'Content Writing',
+            worktime: 'Full-time',
+            compensation: 'Paid'
         },
         {
             id: 2,
@@ -49,7 +70,10 @@ const Internships = () => {
                 'Build student community'
             ],
             skills: 'Communication Skills • Social Media • Event Management',
-            category: 'All Brands'
+            category: 'Non-Tech',
+            role: 'Campus Ambassador',
+            worktime: 'Part-time',
+            compensation: 'Paid'
         },
         {
             id: 3,
@@ -65,7 +89,10 @@ const Internships = () => {
                 'Market research and analysis'
             ],
             skills: 'English Proficiency • MS Excel • Marketing Basics',
-            category: 'Design'
+            category: 'Non-Tech',
+            role: 'Marketing',
+            worktime: 'Full-time',
+            compensation: 'Paid'
         },
         {
             id: 4,
@@ -81,9 +108,47 @@ const Internships = () => {
                 'Sales presentations and demos'
             ],
             skills: 'Communication • MS Office • Sales Skills',
-            category: 'Data Science'
+            category: 'Non-Tech',
+            role: 'Business Development',
+            worktime: 'WFH',
+            compensation: 'Paid'
+        },
+        {
+            id: 5,
+            title: 'Software Engineering Intern',
+            company: 'TechFlow',
+            location: 'Pune',
+            duration: '6 Months',
+            salary: '₹15,000-25,000/month',
+            badge: 'Learner',
+            responsibilities: [
+                'Develop and test software applications',
+                'Collaborate with senior developers',
+                'Write clean, maintainable code'
+            ],
+            skills: 'JavaScript • React • Node.js • Git',
+            category: 'Tech',
+            role: 'Software Engineering',
+            worktime: 'Full-time',
+            compensation: 'Paid'
         }
     ];
+
+    const handleFilterChange = (filterType, values) => {
+        setFilters(prev => ({
+            ...prev,
+            [filterType]: values
+        }));
+    };
+
+    const handleClearFilters = () => {
+        setFilters({
+            category: [],
+            role: [],
+            worktime: [],
+            compensation: []
+        });
+    };
 
     const toggleBookmark = (id) => {
         setBookmarkedJobs(prev => {
@@ -99,117 +164,125 @@ const Internships = () => {
 
     const handleApplyClick = (internship) => {
         if (!appliedJobs.has(internship.id)) {
+            // Track as recently viewed before navigating
+            trackRecentlyViewed(internship);
             navigate('/apply', { state: { internship } });
         }
     };
 
-    const filteredInternships = selectedFilter === 'All Brands'
-        ? internships
-        : internships.filter(intern => intern.category === selectedFilter);
+    const trackRecentlyViewed = (internship) => {
+        setRecentlyViewed(prev => {
+            const filtered = prev.filter(item => item.id !== internship.id);
+            const updated = [internship, ...filtered].slice(0, 5);
+            localStorage.setItem('recentlyViewedInternships', JSON.stringify(updated));
+            return updated;
+        });
+    };
+
+    const handleInternshipClick = (id) => {
+        const internship = internships.find(i => i.id === id);
+        if (internship) {
+            trackRecentlyViewed(internship);
+            // Scroll to the internship card
+            const element = document.getElementById(`internship-${id}`);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+    };
+
+    // Apply filters
+    const filteredInternships = internships.filter(internship => {
+        // Category filter
+        if (filters.category.length > 0 && !filters.category.includes(internship.category)) {
+            return false;
+        }
+        // Role filter
+        if (filters.role.length > 0 && !filters.role.includes(internship.role)) {
+            return false;
+        }
+        // Worktime filter
+        if (filters.worktime.length > 0 && !filters.worktime.includes(internship.worktime)) {
+            return false;
+        }
+        // Compensation filter
+        if (filters.compensation.length > 0 && !filters.compensation.includes(internship.compensation)) {
+            return false;
+        }
+        return true;
+    });
 
     return (
         <div className="internships-page">
-            <div className="container internships-container">
-                {/* Header Section */}
-                <div className="internships-header">
-                    <span className="section-tag">CAREER OPPORTUNITIES</span>
-                    <h1 className="internships-title gradient-text">Latest Internships</h1>
-                    <p className="internships-subtitle">Shape your future with us</p>
-                </div>
+            {/* Header Section */}
+            <div className="internships-header">
+                <span className="section-tag">CAREER OPPORTUNITIES</span>
+                <h1 className="internships-title gradient-text">Latest Internships</h1>
+                <p className="internships-subtitle">Shape your future with us</p>
+            </div>
 
-                {/* Filter Buttons */}
-                <div className="filter-container">
-                    {filters.map((filter) => (
-                        <button
-                            key={filter}
-                            className={`filter-btn ${selectedFilter === filter ? 'active' : ''}`}
-                            onClick={() => setSelectedFilter(filter)}
-                        >
-                            {filter}
-                        </button>
-                    ))}
-                </div>
+            {/* Three-Column Layout */}
+            <div className="internships-layout">
+                {/* Left Sidebar - Filters */}
+                <FilterSidebar
+                    filters={filters}
+                    onFilterChange={handleFilterChange}
+                    onClearFilters={handleClearFilters}
+                />
 
-                {/* Internships Section */}
-                <div className="internships-section">
-                    <h2 className="section-heading">Internships</h2>
+                {/* Middle Column - Internship Cards */}
+                <div className="internships-main">
+                    <div className="internships-count">
+                        <h2 className="section-heading">
+                            {filteredInternships.length} {filteredInternships.length === 1 ? 'Internship' : 'Internships'} Available
+                        </h2>
+                    </div>
 
-                    <div className="internships-list">
+                    <div className="internships-list-modern">
                         {filteredInternships.map((internship) => (
-                            <div key={internship.id} className="internship-card">
-                                {/* Bookmark Icon */}
-                                <button
-                                    className="bookmark-btn"
-                                    onClick={() => toggleBookmark(internship.id)}
-                                    aria-label="Bookmark"
-                                >
-                                    <i className={`fa-${bookmarkedJobs.has(internship.id) ? 'solid' : 'regular'} fa-bookmark`}></i>
-                                </button>
-
-                                {/* Card Header */}
-                                <div className="internship-header">
-                                    <div>
-                                        <h3 className="internship-title">
-                                            {internship.title}
-                                            <span className={`badge-inline ${internship.badge.toLowerCase()}`}>
-                                                {internship.badge}
-                                            </span>
-                                        </h3>
-                                        <p className="company-name">{internship.company} - {internship.location}</p>
-                                    </div>
-                                </div>
-
-                                {/* Meta Info */}
-                                <div className="internship-meta">
-                                    <div className="meta-item">
-                                        <i className="fa-regular fa-clock"></i>
-                                        <span>{internship.duration}</span>
-                                    </div>
-                                    <div className="meta-item">
-                                        <i className="fa-regular fa-money-bill-1"></i>
-                                        <span>{internship.salary}</span>
-                                    </div>
-                                </div>
-
-                                {/* Responsibilities */}
-                                <div className="responsibilities">
-                                    {internship.responsibilities.map((resp, index) => (
-                                        <div key={index} className="responsibility-item">
-                                            {index + 1}. {resp}
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {/* Skills */}
-                                <div className="skills-section">
-                                    <p className="skills-text">{internship.skills}</p>
-                                </div>
-
-                                {/* Actions */}
-                                <div className="card-actions">
-                                    <button className="btn btn-secondary save-btn">Save</button>
-                                    <button
-                                        className={`btn ${appliedJobs.has(internship.id) ? 'btn-success' : 'btn-primary'} apply-btn`}
-                                        onClick={() => handleApplyClick(internship)}
-                                        disabled={appliedJobs.has(internship.id)}
-                                    >
-                                        {appliedJobs.has(internship.id) ? (
-                                            <>
-                                                <i className="fa-solid fa-check"></i> Applied
-                                            </>
-                                        ) : (
-                                            'Apply'
-                                        )}
-                                    </button>
-                                </div>
+                            <div key={internship.id} id={`internship-${internship.id}`}>
+                                <InternshipCard
+                                    internship={internship}
+                                    isBookmarked={bookmarkedJobs.has(internship.id)}
+                                    isApplied={appliedJobs.has(internship.id)}
+                                    onBookmark={toggleBookmark}
+                                    onApply={handleApplyClick}
+                                />
                             </div>
                         ))}
                     </div>
 
-                    {/* View More */}
-                    <div className="view-more-container">
-                        <a href="#" className="view-more-link">View 100+ more opportunities ›</a>
-                    </div>
+                    {filteredInternships.length === 0 && (
+                        <div className="no-results">
+                            <i className="fa-solid fa-inbox" style={{ fontSize: '3rem', color: 'var(--text-muted)', marginBottom: '16px' }}></i>
+                            <h3>No internships found</h3>
+                            <p>Try adjusting your filters to see more opportunities</p>
+                        </div>
+                    )}
+
+                    {filteredInternships.length > 0 && (
+                        <div className="view-more-container">
+                            <button
+                                className="view-more-link"
+                                onClick={() => console.log('Load more internships')}
+                                style={{ background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }}
+                            >
+                                View 100+ more opportunities ›
+                            </button>
+                        </div>
+                    )}
+                </div>
+
+                {/* Right Sidebar - Widgets */}
+                <div className="internships-sidebar">
+                    <RecommendedWidget
+                        internships={internships}
+                        onInternshipClick={handleInternshipClick}
+                    />
+                    <RecentlyViewedWidget
+                        recentlyViewed={recentlyViewed}
+                        onInternshipClick={handleInternshipClick}
+                    />
                 </div>
             </div>
         </div>
