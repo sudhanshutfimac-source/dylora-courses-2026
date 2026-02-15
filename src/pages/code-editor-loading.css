@@ -1,0 +1,132 @@
+/* ===== CODE EDITOR LOADING STYLES ===== */
+
+/* Run Button States */
+.run-btn {
+    position: relative;
+    overflow: hidden;
+}
+
+.run-btn .run-icon {
+    display: inline-block;
+    margin-right: 6px;
+    transition: transform 0.3s ease;
+}
+
+.run-btn.running {
+    animation: pulse-button 1.5s ease-in-out infinite;
+    opacity: 0.8;
+}
+
+.run-btn:disabled {
+    cursor: not-allowed;
+    background: linear-gradient(135deg, #9ca3af 0%, #6b7280 100%);
+    opacity: 0.6;
+}
+
+@keyframes pulse-button {
+
+    0%,
+    100% {
+        box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 4px 25px rgba(124, 58, 237, 0.5);
+    }
+}
+
+/* Code Loading Overlay */
+.code-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(30, 30, 30, 0.95);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Code Spinner */
+.code-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(102, 126, 234, 0.2);
+    border-top: 4px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Loading Text */
+.code-loading-overlay .loading-text {
+    color: #a0a0a0;
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    animation: pulse-text 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-text {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+}
+
+/* iframe Loading State */
+.output-iframe.loading {
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+
+/* Code Output Container */
+.code-output {
+    position: relative;
+}
+
+/* Smooth Fade for Output */
+.output-iframe {
+    transition: opacity 0.4s ease;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .code-spinner {
+        width: 40px;
+        height: 40px;
+    }
+
+    .code-loading-overlay .loading-text {
+        font-size: 0.85rem;
+    }
+}

@@ -8,6 +8,11 @@ import Internships from './pages/Internships';
 import Quizzes from './pages/Quizzes';
 import Blog from './pages/Blog';
 import Login from './pages/Login';
+import MasterTechSkills from './pages/MasterTechSkills';
+import CodePenDemo from './pages/CodePenDemo';
+import LiveCodeEditorDemo from './pages/LiveCodeEditorDemo';
+import LiveCodeEditorProDemo from './pages/LiveCodeEditorProDemo';
+import UltimateEditorDemo from './pages/UltimateEditorDemo';
 import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword'; // ✅ Added this import
 import ApplicationFormPage from './pages/ApplicationFormPage';
@@ -32,7 +37,12 @@ function Layout({ user, setUser }) {
         <Route path="/internships" element={<Internships />} />
         <Route path="/quizzes" element={<Quizzes />} />
         <Route path="/blog" element={<Blog />} />
-
+          <Route path="/master-tech-skills" element={<MasterTechSkills />} />
+          <Route path="/codepen" element={<CodePenDemo />} />
+          <Route path="/live-editor" element={<LiveCodeEditorDemo />} />
+          <Route path="/monaco-editor" element={<LiveCodeEditorProDemo />} />
+          <Route path="/ultimate-editor" element={<UltimateEditorDemo />} />
+        
         {/* Auth Routes: All three pass setUser to handle the login logic */}
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<Signup setUser={setUser} />} />
